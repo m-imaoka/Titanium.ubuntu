@@ -2,9 +2,6 @@
 - hosts: titanium
   roles:
     - git
-    - node
-    - java
-    - android
     - titanium
     - usb
     # - desktop # if you use emulator, activate this line.
