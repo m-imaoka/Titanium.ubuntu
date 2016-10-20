@@ -1,0 +1,5 @@
+---
+- name: install git
+  become: yes
+  apt: state=latest name=git
+  tags: [ 'git' ]

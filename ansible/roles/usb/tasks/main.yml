@@ -1,0 +1,5 @@
+---
+- name: create udev rules
+  become: yes
+  copy: src=51-android.rules dest=/etc/udev/rules.d/51-android.rules
+  tags: [ 'usb' ]

@@ -1,0 +1,5 @@
+---
+- name: install ubuntu desktop
+  become: yes
+  apt: name=ubuntu-desktop state=latest
+  tags: 'desktop'

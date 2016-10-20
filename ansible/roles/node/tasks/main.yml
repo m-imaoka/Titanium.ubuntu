@@ -1,0 +1,17 @@
+---
+- name: download setup shell for nodejs
+  become: yes
+  get_url: url="https://deb.nodesource.com/setup_4.x" dest="/tmp/setup_node.sh" mode=0755
+  tags: 'node'
+
+- name: enable nodejs repos
+  become: yes
+  shell: /tmp/setup_node.sh
+  args:
+    creates: /etc/yum.repos.d/nodesource-el.repo
+  tags: 'node'
+
+- name: install nodejs
+  become: yes
+  apt: name=nodejs state=latest update_cache=yes
+  tags: 'node'

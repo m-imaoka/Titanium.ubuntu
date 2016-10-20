@@ -1,0 +1,15 @@
+---
+- name: install titanium cli
+  become: yes
+  npm: name=titanium global=yes
+  tags: 'titanium'
+
+- name: install titanium sdk
+  shell: ti sdk install 3.5.0.GA --default
+  args:
+    creates: /home/ubuntu/.titanium/mobilesdk/linux/3.5.0.GA
+  tags: 'titanium'
+
+- name: set android sdk path
+  shell: ti config -a android.sdkPath /home/ubuntu/android-sdk-linux
+  tags: 'titanium'
