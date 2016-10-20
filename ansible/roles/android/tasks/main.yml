@@ -1,19 +1,4 @@
 ---
-
-- name: add i386 architecture
-  become: yes
-  shell: dpkg --add-architecture i386
-  tags: [ 'android' ]
-
-- name: install dependency libraries
-  become: yes
-  apt: name={{ item }} state=latest update_cache=yes
-  with_items:
-    - libncurses5:i386
-    - libstdc++6:i386
-    - zlib1g:i386
-  tags: [ 'android' ]
-
 - name: download android sdk archive file
   get_url: url="https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz" dest="/tmp/android-sdk-linux.tgz" mode=0755
   tags: 'node'

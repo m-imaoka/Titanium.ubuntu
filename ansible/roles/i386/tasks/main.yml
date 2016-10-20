@@ -1,0 +1,14 @@
+---
+- name: add i386 architecture
+  become: yes
+  shell: dpkg --add-architecture i386
+  tags: [ 'i386' ]
+
+- name: install i386 libraries
+  become: yes
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - libncurses5:i386
+    - libstdc++6:i386
+    - zlib1g:i386
+  tags: [ 'i386' ]
