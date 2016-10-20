@@ -9,7 +9,7 @@ sudo apt install -y ansible
 
 # provision by ansible
 pushd ~/sync/ansible
-ansible-playbook -i development site.yml --connection=local
+ansible-playbook -i hosts site.yml --connection=local
 popd
 
 echo ''

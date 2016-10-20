@@ -1,0 +1,7 @@
+---
+home_dir: /home/ubuntu
+node:
+  url: https://deb.nodesource.com/setup_4.x
+android:
+  url: https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
+  home: "{{ home_dir }}/android-sdk-linux"

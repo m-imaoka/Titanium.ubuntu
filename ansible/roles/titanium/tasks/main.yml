@@ -7,9 +7,9 @@
 - name: install titanium sdk
   shell: ti sdk install 3.5.0.GA --default
   args:
-    creates: /home/ubuntu/.titanium/mobilesdk/linux/3.5.0.GA
+    creates: "{{ home_dir }}/.titanium/mobilesdk/linux/3.5.0.GA"
   tags: 'titanium'
 
 - name: set android sdk path
-  shell: ti config -a android.sdkPath /home/ubuntu/android-sdk-linux
+  shell: ti config -a android.sdkPath {{ android.home }}
   tags: 'titanium'

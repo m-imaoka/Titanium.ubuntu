@@ -1,7 +1,0 @@
-# development
-
-[titanium]
-192.168.56.10
-
-[development:children]
-titanium

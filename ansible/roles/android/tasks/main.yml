@@ -1,23 +1,23 @@
 ---
 - name: download android sdk archive file
-  get_url: url="https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz" dest="/tmp/android-sdk-linux.tgz" mode=0755
+  get_url: url={{ android.url }} dest=/tmp/android-sdk-linux.tgz mode=0755
   tags: 'node'
 
 - name: extract android sdk archive file
-  unarchive: src=/tmp/android-sdk-linux.tgz dest=/home/ubuntu creates=/home/ubuntu/android-sdk-linux
+  unarchive: src=/tmp/android-sdk-linux.tgz dest={{ home_dir }} creates={{ android.home }}
   tags: [ 'android' ]
 
 - name: add android sdk path
-  lineinfile: dest=/home/ubuntu/.bashrc line='PATH=$PATH:/home/ubuntu/android-sdk-linux/tools'
+  lineinfile: dest={{ home_dir }}/.bashrc line='PATH=$PATH:{{ android.home }}/tools'
   tags: [ 'android' ]
 
 - name: setup android sdk
   shell: 'echo y | android update sdk -u -a -t {{ item.name }}'
   args:
-    chdir: /home/ubuntu/android-sdk-linux
+    chdir: "{{ android.home }}"
     creates: '{{ item.dest }}'
   environment:
-    PATH: "{{ ansible_env.PATH }}:/home/ubuntu/android-sdk-linux/tools"
+    PATH: "{{ ansible_env.PATH }}:{{ android.home }}/tools"
   with_items:
     - { name: platform-tools, dest: platform-tools }
     - { name: build-tools-20.0.0, dest: build-tools/20.0.0 }
@@ -28,7 +28,7 @@
 - name: create emulator
   shell: echo no | android create avd -n avd18 -t android-18 --abi armeabi-v7a
   args:
-    creates: /home/ubuntu/.android/avd/avd18.avd
+    creates: "{{ home_dir }}/.android/avd/avd18.avd"
   environment:
-    PATH: "{{ ansible_env.PATH }}:/home/ubuntu/android-sdk-linux/tools"
+    PATH: "{{ ansible_env.PATH }}:{{ android.home }}/tools"
   tags: [ 'android' ]
