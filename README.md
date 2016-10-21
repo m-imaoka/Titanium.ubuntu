@@ -23,7 +23,7 @@ Titanium CLI on ubuntu/xenial64.
   git clone https://github.com/m-imaoka/Titanium.ubuntu.git
   ```
 
-5. Move current directory to ProbizmoStudy.
+5. Move current directory to Titanium.ubuntu.
 
   ```
   cd [Titanium.ubuntu's path]
