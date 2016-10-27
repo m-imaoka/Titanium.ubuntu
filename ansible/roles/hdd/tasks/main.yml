@@ -25,19 +25,7 @@
 
 - name: format disk
   become: yes
-  filesystem: fstype=ext4 dev=/dev/sdc1
-  tags: [ 'hdd' ]
-
-- name: check volume label
-  become: yes
-  shell: e2label /dev/sdc1 | grep workspace
-  ignore_errors: yes
-  register: volume_label
-
-- name: create volume label
-  become: yes
-  shell: e2label /dev/sdc1 workspace
-  when: volume_label.rc == 1
+  filesystem: fstype=ext4 dev=/dev/sdc1 opts='-L workspace'
   tags: [ 'hdd' ]
 
 - name: create mount point
