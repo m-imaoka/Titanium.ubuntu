@@ -1,6 +1,7 @@
 ---
 - hosts: titanium
   roles:
+    - hdd
     - git
     - titanium
     - usb

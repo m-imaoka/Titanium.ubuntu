@@ -1,0 +1,59 @@
+---
+- name: check partition table
+  become: yes
+  shell: fdisk -l /dev/sdc | grep gpt
+  ignore_errors: yes
+  register: partition_table
+
+- name: create partition table
+  become: yes
+  shell: parted /dev/sdc mklabel gpt
+  when: partition_table.rc == 1
+  tags: [ 'hdd' ]
+
+- name: check partition
+  become: yes
+  shell: fdisk -l /dev/sdc | grep sdc1
+  ignore_errors: yes
+  register: partition
+
+- name: create partition
+  become: yes
+  shell: parted /dev/sdc -- mkpart extended ext4 1 -1
+  when: partition.rc == 1
+  tags: [ 'hdd' ]
+
+- name: format disk
+  become: yes
+  filesystem: fstype=ext4 dev=/dev/sdc1
+  tags: [ 'hdd' ]
+
+- name: check volume label
+  become: yes
+  shell: e2label /dev/sdc1 | grep workspace
+  ignore_errors: yes
+  register: volume_label
+
+- name: create volume label
+  become: yes
+  shell: e2label /dev/sdc1 workspace
+  when: volume_label.rc == 1
+  tags: [ 'hdd' ]
+
+- name: create mount point
+  file: path={{ home_dir }}/workspace state=directory
+  tags: [ 'hdd' ]
+
+- name: mount partition
+  become: yes
+  mount:
+    name: "{{ home_dir }}/workspace"
+    src: LABEL=workspace
+    fstype: ext4
+    state: mounted
+  tags: [ 'hdd' ]
+
+- name: change permission
+  become: yes
+  file: path={{ home_dir }}/workspace state=directory owner=ubuntu group=ubuntu
+  tags: [ 'hdd' ]

@@ -12,6 +12,9 @@ Vagrant.configure(2) do |config|
     # vb.gui = true # if you use emulator, activate this line.
     vb.cpus = 1
     vb.memory = 4096
+    disk = File.expand_path('../tmp/sdc.vdi', __FILE__)
+    vb.customize ['createmedium', 'disk', '--filename', disk, '--format', 'VDI', '--size', 10 * 1024] unless File.exist?(disk) # create hdd
+    vb.customize ['storageattach', :id, '--storagectl', 'SCSI', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', disk] # attach hdd
     vb.customize ["storageattach", :id, "--storagectl", "IDE", "--port", 0, "--device", 1, "--type", "dvddrive", "--medium", "emptydrive"] # add CDROM device.
     vb.customize ["modifyvm", :id, "--usb", "on"]
     vb.customize ["modifyvm", :id, "--usbehci", "on"] # needs Extension Pack
