@@ -1,26 +1,7 @@
 ---
-- name: check partition table
-  become: yes
-  shell: fdisk -l /dev/sdc | grep gpt
-  ignore_errors: yes
-  register: partition_table
-
-- name: create partition table
-  become: yes
-  shell: parted /dev/sdc mklabel gpt
-  when: partition_table.rc == 1
-  tags: [ 'hdd' ]
-
-- name: check partition
-  become: yes
-  shell: fdisk -l /dev/sdc | grep sdc1
-  ignore_errors: yes
-  register: partition
-
 - name: create partition
   become: yes
-  shell: parted /dev/sdc -- mkpart extended ext4 1 -1
-  when: partition.rc == 1
+  partition: dev=/dev/sdc
   tags: [ 'hdd' ]
 
 - name: format disk
